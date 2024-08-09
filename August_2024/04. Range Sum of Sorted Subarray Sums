@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int rangeSum(vector<int>& nums, int n, int left, int right) {
+        int ans[n * (n + 1) / 2];
+        for (int i = 0, k = 0; i < n; ++i) {
+            int s = 0;
+            for (int j = i; j < n; ++j) {
+                s += nums[j];
+                ans[k++] = s;
+            }
+        }
+        sort(ans, ans + n * (n + 1) / 2);
+        int result = 0;
+        int M = 1e9 + 7;
+        for (int i = left - 1; i < right; ++i) {
+            result = (result + ans[i]) % M;
+        }
+        return result;
+    }
+};
