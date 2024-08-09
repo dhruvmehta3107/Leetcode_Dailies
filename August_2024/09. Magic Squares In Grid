@@ -1,0 +1,50 @@
+class Solution {
+public:
+    bool checkMagicSquare(vector<vector<int>>& grid, int row, int col){
+        unordered_set<int> set;
+        for(int i = row ; i < row + 3 ; i++){
+            for(int j = col ; j < col + 3 ; j++){
+                int ele = grid[i][j];
+                if(ele < 1 || ele > 9 || set.count(ele))return false;
+                set.insert(ele);
+            }
+        }
+
+        int sum = grid[row][col] + grid[row][col+1] + grid[row][col+2];
+
+        for(int i = row ; i < row + 3 ; i++){
+            int sumRow = 0;
+            for(int j = col ; j < col+3 ; j++){
+                sumRow += grid[i][j];
+            }
+            if(sumRow != sum)return false;
+        }
+
+        for(int j = col ; j < col + 3 ; j++){
+            int sumCol = 0;
+            for(int i = row ; i < row + 3 ; i++){
+                sumCol += grid[i][j];
+            }
+            if(sumCol != sum)return false;
+        }
+
+        if(grid[row][col] + grid[row+1][col+1] + grid[row+2][col+2] != sum)return false;
+        if(grid[row+2][col] + grid[row+1][col+1] + grid[row][col+2] != sum)return false;
+
+        return true;
+    }
+    int numMagicSquaresInside(vector<vector<int>>& grid) {
+        int result = 0;
+        int row = grid.size();
+        int col = grid[0].size();
+
+        if(row < 3 || col < 3)return 0;
+
+        for (int i = 0; i <= row - 3; i++) {
+            for (int j = 0; j <= col - 3; j++) {
+                if (checkMagicSquare(grid, i, j))result++;
+            }
+        }
+        return result;
+    }
+};
