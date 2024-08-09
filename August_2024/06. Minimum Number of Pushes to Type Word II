@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int minimumPushes(string word) {
+        unordered_map<char,int> mp;
+        int n = word.length();
+        for(auto& i : word){
+            mp[i]++;
+        }
+
+        int sum = 0;
+        vector<int> freq;
+        for(auto& i : mp){
+            freq.push_back(i.second);
+            if(mp.find(i.first) != mp.end()){
+                sum++;
+            }
+        }
+        if(sum <= 8){
+            return n;
+        }
+
+        sort(freq.rbegin(), freq.rend());
+
+        int cost = 0;
+        int presses = 1;
+        int position = 0;
+        for(auto& i : freq){
+            cost += i * presses;
+            position++;
+            if(position % 8 == 0){
+                presses++;
+            }
+        }
+        return cost;
+    }
+};
