@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        
+        vector<vector<int>> dp(n, vector<int>(n + 1, 0));
+        vector<int> suffixSum(n, 0);
+        suffixSum[n - 1] = piles[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            suffixSum[i] = suffixSum[i + 1] + piles[i];
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            for (int m = 1; m <= n; m++) {
+                if (i + 2 * m >= n) {
+                    dp[i][m] = suffixSum[i];
+                } else {
+                    for (int x = 1; x <= 2 * m; x++) {
+                        dp[i][m] = max(dp[i][m], suffixSum[i] - dp[i + x][max(m, x)]);
+                    }
+                }
+            }
+        }
+        return dp[0][1];
+    }
+};
+
+// class Solution {
+// public:
+//     int n;
+//     int t[2][101][101];
+//     int SolveForAlice(vector<int> piles, int person, int i, int M){
+//         if(i >= n)return 0;
+//         if(t[person][i][M] != -1) return t[person][i][M];
+
+//         int stones = 0;
+//         int result = (person == 1) ? -1 : INT_MAX;
+
+//         for(int x = 1 ; x <= min(2*M, n-i) ; x++){
+//             stones += piles[i+x-1];
+//             if(person == 1){
+//                 result = max(result, stones + SolveForAlice(piles, 0, i+x, max(M, x)));
+//             }
+//             else{
+//                 result = min(result, SolveForAlice(piles, 1, i+x, max(M, x)));
+//             }
+//         }
+//         return t[person][i][M] = result;
+//     }
+
+//     int stoneGameII(vector<int>& piles) {
+//         n = piles.size();
+        
+//         memset(t, -1, sizeof(t));
+//         return SolveForAlice(piles, 1, 0, 1);
+//     }
+// };
