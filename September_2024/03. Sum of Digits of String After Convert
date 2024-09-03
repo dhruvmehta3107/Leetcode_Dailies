@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int sumDigits(int num){
+        int sum = 0;
+        while(num){
+            sum += num%10;
+            num /= 10;
+        }
+        return sum;
+    }
+    int getLucky(string s, int k) {
+        int sum = 0;
+        for(char i : s){
+            int temp = i - 'a' + 1;
+            if(temp >= 10){
+                sum += temp % 10 + temp/10;
+            }
+            else{
+                sum += temp;
+            }
+        }
+        k--;
+        while(k-- && sum >= 10){
+            sum = sumDigits(sum);
+        }
+        return sum;
+    }
+};
