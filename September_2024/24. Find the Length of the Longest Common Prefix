@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+        unordered_set<int> st;
+        for(int val : arr1)
+        {
+            while(!st.count(val) && val > 0)
+            {
+                st.insert(val);
+                val /= 10;
+            }
+        }
+        int ans = 0;
+        for(int val : arr2)
+        {
+            while(!st.count(val) && val > 0)
+            {
+                val /= 10;
+            }
+            if(val > 0)
+            {
+                ans = max(ans , static_cast<int>(log10(val) + 1));
+            }
+        }
+        return ans;
+    }
+};
+
+// class Solution {
+// public:
+//     int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+//         unordered_set<string> st;
+//         for(int i = 0 ; i < arr1.size() ; i++)
+//         {
+//             string val = to_string(arr1[i]);
+//             string prefix;
+//             for(auto ch : val)
+//             {
+//                 prefix += ch;
+//                 st.insert(prefix);
+//             }
+//         }
+//         int ans = 0;
+//         for(int i = 0 ; i < arr2.size() ; i++)
+//         {
+//             string val = to_string(arr2[i]);
+//             string prefix;
+//             for(auto ch : val)
+//             {
+//                 prefix += ch;
+//                 if(st.count(prefix)) ans = max(ans , (int)prefix.size());
+//             }
+//         }
+//         return ans;
+//     }
+// };
