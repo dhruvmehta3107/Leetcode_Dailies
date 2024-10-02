@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<int> arrayRankTransform(vector<int>& nums) {
+        vector<int> a = nums;
+
+        unordered_map<int,int> mpp;
+        int rank = 1;
+
+        sort(a.begin(), a.end());
+
+        for(const int &ele : a){
+            if(mpp.find(ele) == mpp.end()){
+                mpp[ele] = rank++;
+            }
+        }
+
+        for(int i = 0 ; i < nums.size() ; i++){
+            nums[i] = mpp[nums[i]];
+        }
+
+        return nums;
+    }
+};
+
+
+//         int n = nums.size();
+
+//         if(n == 0) return {};
+
+//         set<int> uniqueElements(nums.begin() , nums.end());
+
+//         unordered_map<int,int> ranks;
+//         int rank = 1;
+
+//         for(const int &ele : uniqueElements){
+//             ranks[ele] = rank++;
+//         }
+
+//         vector<int> ans;
+
+//         for(const int &ele : nums){
+//             ans.push_back(ranks[ele]);
+//         }
+
+//         return ans;
+//     }
+// };
