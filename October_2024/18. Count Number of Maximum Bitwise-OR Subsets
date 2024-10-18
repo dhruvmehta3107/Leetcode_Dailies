@@ -1,0 +1,63 @@
+class Solution{
+public:
+    void backtrack(const vector<int> &nums, int index, int currentOR, int maxOR, int &count)
+    {
+        if (currentOR == maxOR){
+            count++;
+        }
+
+        for (int i = index; i < nums.size(); ++i){
+            backtrack(nums, i + 1, currentOR | nums[i], maxOR, count);
+        }
+    }
+
+    int countMaxOrSubsets(vector<int> &nums)
+    {
+        int maxOR = 0;
+
+        for (int num : nums){
+            maxOR |= num;
+        }
+
+        int count = 0;
+
+        backtrack(nums, 0, 0, maxOR, count);
+
+        return count;
+    }
+};
+
+
+
+// class Solution {
+// public:
+//     int countSubsets(int idx, int currOR, vector<int>& nums, int maxOR, vector<vector<int>>& t){
+//         if(idx == nums.size()){
+//             if(currOR == maxOR)     
+//                 return 1;
+//             return 0;
+//         }
+
+//         if(t[idx][currOR] != -1){
+//             return t[idx][currOR];
+//         }
+
+//         int takeCount = countSubsets(idx + 1, currOR | nums[idx], nums, maxOR, t);
+//         int notTakeCount = countSubsets(idx + 1, currOR, nums, maxOR, t);
+
+//         return t[idx][currOR] = takeCount + notTakeCount;
+//     }
+
+//     int countMaxOrSubsets(vector<int>& nums) {
+//         int n = nums.size();
+//         int maxOR = 0;
+
+//         for(int &num : nums){
+//             maxOR |= num;
+//         }
+
+//         int currOR = 0;
+//         vector<vector<int>> t(n + 1, vector<int>(maxOR + 1 , -1));
+//         return countSubsets(0, currOR, nums, maxOR, t);
+//     }
+// };
