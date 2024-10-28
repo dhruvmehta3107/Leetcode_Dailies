@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int longestSquareStreak(vector<int>& nums) {
+        unordered_map<int, int> mp;
+        int res = -1;
+
+        sort(nums.begin(), nums.end());
+
+        for(int num: nums) {
+            int root = sqrt(num);
+           
+            if(root * root == num) 
+                mp[num] = mp[root] + 1;
+            else 
+                mp[num] = 1;
+            
+            res = max(res, mp[num]);
+        }
+
+        return res < 2 ? -1 : res;
+    }
+};
