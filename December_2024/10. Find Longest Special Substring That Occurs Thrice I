@@ -1,0 +1,63 @@
+class Solution {
+public:
+    int maximumLength(string s) {
+        int n = s.size();
+        int l = 1, r = n;
+
+        if (!helper(s, n, l)) return -1;
+
+        while (l + 1 < r) {
+            int mid = (l + r) / 2;
+            if (helper(s, n, mid)) l = mid;
+            else r = mid;
+        }
+
+        return l;
+    }
+
+private:
+    bool helper(const string& s, int n, int x) {
+        vector<int> cnt(26, 0);
+        int p = 0;
+
+        for (int i = 0; i < n; i++) {
+            while (s[p] != s[i]) p++;
+            if (i - p + 1 >= x) cnt[s[i] - 'a']++;
+            if (cnt[s[i] - 'a'] > 2) return true;
+        }
+
+        return false;
+    }
+};
+
+// class Solution {
+// public:
+//     int maximumLength(string s) {
+//         map<pair<char, int>, int> mps;
+//         int count = 0;
+
+//         for (int i = 0; i < s.length(); i++) {
+//             count = 1;
+//             mps[{s[i], count}]++;
+
+//             for (int j = i; j < s.length(); j++) {
+//                 if (s[j] == s[j + 1]) {
+//                     count++;
+//                     mps[{s[i], count}]++;
+//                 } else {
+//                     break;
+//                 }
+//             }
+//         }
+
+//         int ans1 = 0;
+
+//         for (auto x : mps) {
+//             if (x.second >= 3) {
+//                 ans1 = max(x.first.second, ans1);
+//             }
+//         }
+
+//         return (ans1 == 0) ? -1 : ans1;
+//     }
+// };
