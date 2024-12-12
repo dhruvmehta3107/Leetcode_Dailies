@@ -1,0 +1,27 @@
+class Solution {
+public:
+    long long pickGifts(vector<int>& gifts, int k) {
+        long long sum=accumulate(gifts.begin(), gifts.end(), 0LL);
+        priority_queue<int> pq(gifts.begin(), gifts.end());
+        for (int i=0, x=INT_MAX, y; i<k && x>1; i++){
+            x=pq.top(), y=sqrt(x);
+            pq.pop();
+            sum-=(x-y);
+            pq.push(y);
+        }
+        return sum;
+    }
+};
+// while(k--){
+//     sort(gifts.rbegin(), gifts.rend());
+//     int pile = gifts[0];
+//     gifts.erase(gifts.begin());
+//     gifts.push_back(sqrt(pile));
+// } 
+
+// long long ans = 0;
+
+// for(auto i : gifts)
+//     ans += i;
+
+// return ans;
